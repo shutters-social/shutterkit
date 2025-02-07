@@ -18,7 +18,7 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          BUN_AUTH_TOKEN: op://shutters-cicd/shutterkit-npm/password
+          NPM_CONFIG_TOKEN: op://shutters-cicd/shutterkit-npm/password
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
