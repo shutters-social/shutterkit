@@ -2,17 +2,42 @@
   "name": "@shutters/shutterkit",
   "version": "1.0.0",
   "description": "Shutters.social service kit",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "author": "Shutters Team <contact@shutters.social>",
   "license": "Apache-2.0",
   "packageManager": "bun@1.2.2",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "files": ["README.md", "LICENSE", "dist"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shutters-social/shutterkit.git"
+  },
+  "bugs": "https://github.com/shutters-social/shutterkit/issues",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf --no-interactive dist",
+    "build": "bun run typecheck && bun run ./build.ts",
+    "build:clean": "bun run clean && bun run build",
+    "typecheck": "tsc",
+    "test": "bun test",
+    "ci:codequality": "biome ci .",
+    "format": "biome format",
+    "format:fix": "biome format --write",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.2"
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "^1.2.2",
+    "bun-plugin-dts": "^0.3.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@hono/prometheus": "^1.0.1",
