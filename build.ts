@@ -6,18 +6,18 @@ const defaultBuildConfig: BuildConfig = {
   outdir: './dist',
   target: 'bun',
   packages: 'external',
-}
+};
 
 await Promise.all([
   Bun.build({
     ...defaultBuildConfig,
     plugins: [dts()],
     format: 'esm',
-    naming: "[dir]/[name].js",
+    naming: '[dir]/[name].js',
   }),
   Bun.build({
     ...defaultBuildConfig,
     format: 'cjs',
-    naming: "[dir]/[name].cjs",
-  })
-])
+    naming: '[dir]/[name].cjs',
+  }),
+]);
