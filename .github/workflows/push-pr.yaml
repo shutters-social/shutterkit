@@ -1,4 +1,5 @@
 ---
+name: 'On Push/PR'
 on:
   push:
     branches: [main]
