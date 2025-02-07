@@ -5,6 +5,7 @@ import { Registry } from 'prom-client';
 import { Gauge } from 'prom-client';
 import { version as kitVersion } from '../package.json';
 import { requestId } from 'hono/request-id';
+import { sentry } from '@hono/sentry';
 
 export class Service<E extends Env = BlankEnv> {
   public app: Hono<E>;
@@ -15,7 +16,17 @@ export class Service<E extends Env = BlankEnv> {
   constructor() {
     this.app = new Hono<E>();
     this.setupPrometheus();
-    this.middleware();
+    this.setupSentry();
+    this.setup();
+  }
+
+  private setupSentry() {
+    if (process.env.SENTRY_DSN) {
+      this.app.use('*', sentry({
+        dsn: process.env.SENTRY_DSN,
+        sampleRate: parseFloat(process.env.SENTRY_SAMPLE_RATE ?? '1.0'),
+      }));
+    }
   }
 
   private setupPrometheus() {
@@ -36,7 +47,7 @@ export class Service<E extends Env = BlankEnv> {
     });
   }
 
-  protected middleware() {
+  protected setup() {
     this.app.use('*', requestId());
     this.app.use('*', this.prometheus.registerMetrics);
     this.app.get('/metrics', this.prometheus.printMetrics);

@@ -1,6 +1,6 @@
 {
   "name": "@shutters/shutterkit",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Shutters.social service kit",
   "author": "Shutters Team <contact@shutters.social>",
   "license": "Apache-2.0",
@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "@hono/prometheus": "^1.0.1",
+    "@hono/sentry": "^1.2.0",
+    "@sentry/bun": "^8.54.0",
     "hono": "^4.7.0",
     "prom-client": "^15.1.3"
   }
