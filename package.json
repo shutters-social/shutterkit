@@ -1,0 +1,22 @@
+{
+  "name": "@shutters/shutterkit",
+  "version": "1.0.0",
+  "description": "Shutters.social service kit",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Shutters Team <contact@shutters.social>",
+  "license": "Apache-2.0",
+  "packageManager": "bun@1.2.2",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.2"
+  },
+  "dependencies": {
+    "@hono/prometheus": "^1.0.1",
+    "hono": "^4.7.0",
+    "prom-client": "^15.1.3"
+  }
+}
