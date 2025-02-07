@@ -4,6 +4,7 @@ import type { BlankEnv } from 'hono/types';
 import { Registry } from 'prom-client';
 import { Gauge } from 'prom-client';
 import { version as kitVersion } from '../package.json';
+import { requestId } from 'hono/request-id';
 
 export class Service<E extends Env = BlankEnv> {
   public app: Hono<E>;
@@ -36,16 +37,24 @@ export class Service<E extends Env = BlankEnv> {
   }
 
   protected middleware() {
+    this.app.use('*', requestId());
     this.app.use('*', this.prometheus.registerMetrics);
     this.app.get('/metrics', this.prometheus.printMetrics);
   }
 
   start(port = 3000, hostname = '0.0.0.0') {
-    return Bun.serve({
+    const server = Bun.serve({
       development: process.env.ENV === 'development',
       port,
       hostname,
       fetch: this.app.fetch,
     });
+
+    process.on('exit', async () => {
+      await server.stop();
+      process.exit(0);
+    });
+
+    return server;
   }
 }
