@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@hono/prometheus": "^1.0.1",
-    "@hono/sentry": "^1.2.0",
     "@sentry/bun": "^8.54.0",
     "hono": "^4.7.0",
     "prom-client": "^15.1.3"
