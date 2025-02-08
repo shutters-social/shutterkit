@@ -1,12 +1,12 @@
 import * as Sentry from '@sentry/bun';
+import type { Env, Handler, Hono } from 'hono';
+import { createMiddleware } from 'hono/factory';
+import type { Schema } from 'hono/types';
 import {
   extractQueryParamsFromUrl,
   getSanitizedUrlString,
   parseUrl,
-} from '@sentry/core';
-import type { Env, Handler, Hono } from 'hono';
-import { createMiddleware } from 'hono/factory';
-import type { Schema } from 'hono/types';
+} from './utils';
 
 declare module 'hono' {
   interface ContextVariableMap {
