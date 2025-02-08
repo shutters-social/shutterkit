@@ -1,10 +1,10 @@
 import { prometheus } from '@hono/prometheus';
 import { type Env, Hono } from 'hono';
+import { requestId } from 'hono/request-id';
 import type { BlankEnv } from 'hono/types';
 import { Registry } from 'prom-client';
 import { Gauge } from 'prom-client';
 import { version as kitVersion } from '../package.json';
-import { requestId } from 'hono/request-id';
 import { setupHonoSentry } from './sentry';
 
 export class Service<E extends Env = BlankEnv> {
