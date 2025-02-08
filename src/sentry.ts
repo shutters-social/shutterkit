@@ -1,10 +1,14 @@
-import type { Env, Handler, Hono } from "hono";
-import * as Sentry from "@sentry/bun";
-import { extractQueryParamsFromUrl, getSanitizedUrlString, parseUrl } from '@sentry/core';
-import type { Schema } from "hono/types";
-import { createMiddleware } from "hono/factory";
+import type { Env, Handler, Hono } from 'hono';
+import * as Sentry from '@sentry/bun';
+import {
+  extractQueryParamsFromUrl,
+  getSanitizedUrlString,
+  parseUrl,
+} from '@sentry/core';
+import type { Schema } from 'hono/types';
+import { createMiddleware } from 'hono/factory';
 
-declare module "hono" {
+declare module 'hono' {
   interface ContextVariableMap {
     span: Sentry.Span;
   }
@@ -22,7 +26,7 @@ export const sentry: Handler = createMiddleware(async (c, next) => {
         'http.request.path': c.req.routePath,
       },
     },
-    async (span) => {
+    async span => {
       const url = getSanitizedUrlString(parseUrl(c.req.url));
       Sentry.getIsolationScope().setSDKProcessingMetadata({
         normalizedRequest: {
@@ -42,7 +46,7 @@ export const sentry: Handler = createMiddleware(async (c, next) => {
       if (c.error) {
         Sentry.captureException(c.error, {
           mechanism: {
-            type: "middleware",
+            type: 'middleware',
             handled: false,
           },
         });
@@ -61,7 +65,7 @@ export const setupHonoSentry = <
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.SENTRY_ENV ?? 'unknown',
-    sampleRate: parseFloat(process.env.SENTRY_SAMPLE_RATE ?? '1.0'),
+    sampleRate: Number.parseFloat(process.env.SENTRY_SAMPLE_RATE ?? '1.0'),
     enableTracing: true,
     integrations: [
       // Common
