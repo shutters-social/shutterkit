@@ -65,6 +65,7 @@ export const setupHonoSentry = <
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: process.env.SENTRY_ENV ?? 'unknown',
+    release: process.env.APP_REVISION,
     sampleRate: Number.parseFloat(process.env.SENTRY_SAMPLE_RATE ?? '1.0'),
     enableTracing: true,
     integrations: [
