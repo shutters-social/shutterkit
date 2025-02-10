@@ -1,5 +1,5 @@
-import { createMiddleware } from "hono/factory";
-import pino, { type Logger } from "pino";
+import { createMiddleware } from 'hono/factory';
+import pino, { type Logger } from 'pino';
 
 export const newLogger = (name: string) => pino({ name });
 
@@ -24,6 +24,6 @@ export const logMiddleware = <A extends string, B extends boolean>(
       headers: ctx.res.headers,
       status: ctx.res.status,
       requestId: ctx.get('requestId'),
-      error: ctx.error ? true : false,
+      error: !!ctx.error,
     });
   });

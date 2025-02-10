@@ -5,8 +5,8 @@ import type { BlankEnv } from 'hono/types';
 import { Registry } from 'prom-client';
 import { Gauge } from 'prom-client';
 import { version as kitVersion } from '../package.json';
-import { setupHonoSentry } from './sentry';
 import { logMiddleware, newLogger } from './logging';
+import { setupHonoSentry } from './sentry';
 
 export class Service<E extends Env = BlankEnv> {
   public app = new Hono<E>();
