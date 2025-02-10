@@ -6,15 +6,16 @@ import { Registry } from 'prom-client';
 import { Gauge } from 'prom-client';
 import { version as kitVersion } from '../package.json';
 import { setupHonoSentry } from './sentry';
+import { logMiddleware, newLogger } from './logging';
 
 export class Service<E extends Env = BlankEnv> {
-  public app: Hono<E>;
-  protected metricsPrefix = 'shutter_';
+  public app = new Hono<E>();
+  public metricsPrefix = 'shutter_';
   public prometheus!: ReturnType<typeof prometheus>;
-  public registry!: Registry;
+  public registry = new Registry();
+  public logger = newLogger('service');
 
   constructor() {
-    this.app = new Hono<E>();
     this.setupSentry();
     this.setupPrometheus();
     this.setup();
@@ -27,8 +28,6 @@ export class Service<E extends Env = BlankEnv> {
   }
 
   private setupPrometheus() {
-    this.registry = new Registry();
-
     const versionGauge = new Gauge({
       name: 'shutterkit_version',
       help: 'The installed version of @shutter/shutterkit.',
@@ -48,6 +47,7 @@ export class Service<E extends Env = BlankEnv> {
     this.app.use('*', requestId());
     this.app.use('*', this.prometheus.registerMetrics);
     this.app.get('/metrics', this.prometheus.printMetrics);
+    this.app.use('*', logMiddleware(this.logger));
   }
 
   start(port = 3000, hostname = '0.0.0.0') {

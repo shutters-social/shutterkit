@@ -45,6 +45,8 @@
     "@hono/prometheus": "^1.0.1",
     "@sentry/bun": "^8.54.0",
     "hono": "^4.7.0",
+    "pino": "^9.6.0",
+    "pino-logfmt": "^0.1.1",
     "prom-client": "^15.1.3"
   }
 }
